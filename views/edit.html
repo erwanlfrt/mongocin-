@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+  <div id="editForm">
+    <form method="POST" action="{{endpoint}}", enctype="multipart/form-data">
+      <div class="form-group">
+          <label for="title">Titre</label>
+          <input type="text" name="titleMovie" id="titleMovie" class="form-control" value="{{movie.title}}">
+      </div>
+      <div class="form-group">
+          <label for="producer">Réalisateur</label>
+          <input type="text" name="producerMovie"  id="producerMovie" class="form-control" value="{{movie.producer}}">
+      </div>
+      <div class="form-group">
+          <label for="year">Année</label>
+          <input type="text" name="yearMovie" id="yearMovie" class="form-control" value="{{movie.year}}">
+      </div>
+      <div class="form-group">
+          <label for="description">Description</label>
+          <textarea name="descriptionMovie" id="descriptionMovie" class="form-control"  rows="8" cols="80">{{movie.description}}</textarea>
+      </div>
+      <div class="form-group">
+          <label for="poster">Affiche</label>
+          <input type="text" name="posterMovie" id="posterMovie" class="form-control" value="{{movie.poster}}">
+      </div>
+      <div class="form-group">
+          <label for="scene">Scene</label>
+          <input type="text" name="sceneMovie" id="sceneMovie" class="form-control" value="{{movie.scene}}">
+      </div>
+      <div class="form-group" id="diffusionList">
+        <label for="diffusions">Diffusions : </label>
+        {% for d in movie.diffusion %}
+          <input type="text" name="diffusionMovieDate" id="diffusionMovieDate" class="form-control diffusionMovieDate" value="{{d.date}}">
+          <input type="text" name="diffusionMovieReservation" id="diffusionMovieReservation" class="form-control diffusionMovieReservation" value="{{d.reservation}}">
+          <input type="text" name="diffusionMovieMaxPlaces" id="diffusionMovieMaxPlaces" class="form-control diffusionMovieMaxPlaces" value="{{d.max_places}}">
+        {% endfor %}
+        <input type="button" name="addDiffusionButton" value="ajouter" onclick="addDiffusion()">
+      </div>
+      <div class="form-group" id="actorsList">
+        <label for="actors">Acteurs</label>
+        {% for a in movie.actors %}
+          <input type="text" name="actorMovie" id="actorMovie" class="form-control actorMovie" value="{{a}}">
+        {% endfor %}
+        <input type="button" name="addActorButton" value="ajouter" onclick="addActor()">
+      </div>
+
+
+
+
+
+      <div class="form-group">
+          <label for="limite_age">Limite d'age</label>
+          <input type="text" name="limite_age" id="limite_ageForm" class="form-control" value="{{movie.limite_age}}">
+      </div>
+      <input type="submit" class="btn btn-primary" value="Soumettre">
+    </form>
+  </div>
+{% endblock %}

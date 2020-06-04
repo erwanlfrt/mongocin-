@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="posterSection" style="background-image:url({{movie.scene}})">
+      <img src="{{movie.poster}}" class="poster">
+      <table id="pres">
+        <tr>
+          <td><span id="movieTitle">{{movie.title}}</span><span id="year">  ({{movie.year}})</span></td>
+        </tr>
+        <tr>
+          <td><p id="producer">Film de <strong>{{movie.producer}}</strong></p></td>
+        </tr>
+      </table>
+    </div>
+  <div id="aboutMovie">
+
+    <h3><strong>Synopsis et détails</strong></h3>
+    <p class="lead">{{movie.description}}</p>
+    <h3><strong>Acteurs:</strong> </h3>
+    {% for a in movie.actors %}
+      <span class="label label-default"></br>{{a}}</span>
+    {% endfor %}
+  </div>
+
+  <a href="/edit/{{movie._id}}">Modifier</a>
+
+{% endblock %}
