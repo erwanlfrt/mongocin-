@@ -4,6 +4,9 @@ var nunjucks = require("nunjucks");
 var bodyParser = require("body-parser");
 var multer = require("multer");
 
+var njglobals = require('nunjucks/src/globals');
+njglobals.compteur = 0;
+
 var upload = multer({
   dest : __dirname+"/uploads"
 });

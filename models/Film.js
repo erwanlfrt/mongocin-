@@ -6,6 +6,11 @@ var diffusionSchema = new mongoose.Schema({
   max_places : Number
 });
 
+var actorSchema = new mongoose.Schema({
+  name : String,
+  image : String,
+})
+
 var filmSchema = new mongoose.Schema({
   title : String,
   producer : String,
@@ -17,6 +22,7 @@ var filmSchema = new mongoose.Schema({
   diffusion :[diffusionSchema],
   limite_age : Number
 });
+
 
 
 var Film = mongoose.model("films", filmSchema);

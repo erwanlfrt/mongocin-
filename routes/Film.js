@@ -46,9 +46,12 @@ router.post("/:id?", (req,res)=>{
 
 
       var elements = [];
-      for(let i = 0; i<req.body.diffusionMovieDate.length ; i++){
-        elements.push({date : req.body.diffusionMovieDate[i], reservation : req.body.diffusionMovieReservation[i], max_places : req.body.diffusionMovieMaxPlaces[i]});
+      if(req.body.diffusionMovieDate!=undefined){
+        for(let i = 0; i<req.body.diffusionMovieDate.length ; i++){
+          elements.push({date : req.body.diffusionMovieDate[i], reservation : req.body.diffusionMovieReservation[i], max_places : req.body.diffusionMovieMaxPlaces[i]});
+        }
       }
+
 
       movie.diffusion = elements;
 

@@ -22,6 +22,32 @@ function createCollection(){
 	});
 }
 
+function createActorCollection(){
+	mongo.connect(url, function(err, db) {
+		if (err) throw err;
+		var dbo = db.db("cinema");
+		dbo.createCollection("actors",{
+			validator:{
+				$jsonSchema:{
+					bsonType:"object",
+					properties:{
+						name : {
+							bsonType : "string"
+						},
+						image : {
+							bsonType : "string"
+						}
+					}
+				}
+			}
+		},function(err, res){
+			if(err) throw err;
+			console.log("Collection created !");
+			db.close();
+		});
+	});
+}
+
 function addMovie(title, producer, year, description, poster, scene, actors, diffusion,age){
 	mongo.connect(url, function(err, db) {
 		if (err) throw err;
@@ -35,7 +61,7 @@ function addMovie(title, producer, year, description, poster, scene, actors, dif
 
 		dbo.collection("films").insertOne(obj, function(err, res){
 			if(err) throw err;
-			console.log("1 document inserted");
+			//console.log("1 document inserted");
 			db.close();
 		});
 		if(Array.isArray(diffusion)){
@@ -126,7 +152,7 @@ function setPoster(title, poster){
 	  var newValues = { $set: { poster : poster } };
 	  dbo.collection("films").updateMany(query, newValues, function(err, res) {
 			if (err) throw err;
-			console.log("1 document updated");
+			//console.log("1 document updated");
 			db.close();
 	  });
 	});
@@ -206,6 +232,39 @@ function limite_age(age){
 	});
 }
 
+function loadup(n, action){
+	console.log("*******************************************");
+	console.log("***** Test de performance : "+action+"*****");
+	console.log("*******************************************");
+
+	debut = new Date();
+
+	if(action=="insert"){
+		for (var i = 0; i<n; i++){
+	    addMovie("Pulp Fiction", "Quentin Tarantino", "1994", "L'odyssée sanglante et burlesque de petits malfrats dans la jungle de Hollywood à travers trois histoires qui s'entremêlent. Dans un restaurant, un couple de jeunes braqueurs, Pumpkin et Yolanda, discutent des risques que comporte leur activité. Deux truands, Jules Winnfield et son ami Vincent Vega, qui revient d'Amsterdam, ont pour mission de récupérer une mallette au contenu mystérieux et de la rapporter à Marsellus Wallace.", "https://i.pinimg.com/originals/bd/57/14/bd5714012d49ebf498fc58f9213961ef.jpg", "https://fr.web.img4.acsta.net/pictures/15/08/25/09/24/460224.jpg",["John Travolta", "Samuel L. Jackson", "Bruce Willis"], [],18 );
+	  }
+	}
+	else if (action=="update"){
+		for (var i = 0; i<n; i++){
+			setPoster("Titanic", "http://newlink.html/poster.png");
+		}
+	}
+	else if(action=="query"){
+		for (var i = 0; i<n; i++){
+			getMoviesFromActor("Leonardo DiCaprio");
+		}
+	}
+
+
+	fin = new Date();
+
+	console.log("temps d'exécution pour n = "+n+"= "+(fin-debut)+" ms");
+}
+
+
+
+
+/*
 createDatabase();
 createCollection();
 addMovie("Titanic", "James Cameron","1998","Southampton, 10 avril 1912. Le paquebot le plus grand et le plus moderne du monde, réputé pour son insubmersibilité, le \"Titanic\", appareille pour son premier voyage. Quatre jours plus tard, il heurte un iceberg. A son bord, un artiste pauvre et une grande bourgeoise tombent amoureux.", "http://fr.web.img3.acsta.net/r_1280_720/medias/nmedia/18/36/27/14/20051394.jpg","https://cache.cosmopolitan.fr/data/photo/w1000_ci/5m/titanic-escape-game.jpg", ["Leonardo DiCaprio", "Kate Winslet", "Billy Zane", "Kathy Bates"], ["09/08/2020", "10/08/2022"],12);
@@ -218,6 +277,13 @@ addMovie("Interstellar", "Christopher Nolan", "2014","Dans un futur proche, la T
 
 
 addMovie("Sympathie pour le diable", "Guillaume de Fontenay", "2018", "Sarajevo, novembre 92. Sept mois après le début du siège, Paul Marchand, correspondant de guerre, risque sa vie et tente de témoigner d'une guerre insensée et du quotidien des 400 000 âmes prises en otages par les troupes serbes sous le regard impassible de la communauté internationale.", "https://fr.web.img6.acsta.net/pictures/19/10/25/16/05/1555722.jpg", "https://www.ecranlarge.com/uploads/image/001/111/sympathie-pour-le-diable-photo-sympathie-pour-le-diable-1111052.jpg", ["Ella Rumpf", "Niels Schneider", "Vincent ROttiers"],["09/08/2020", "10/08/2022"],12 );
+
+*/
+
+var nb = [1,10,100,1000,10000,50000];
+for( var i = 0; i<nb.length;i++){
+	loadup(nb[i], "query");
+}
 
 //deleteMovie("Titanic");
 //getActors("Titanic");

@@ -32,7 +32,7 @@
           </div>
         {% endif %}
 
-      {%- endfor %}
+      {% endfor %}
     </div>
     <a href="#welcomeCarousel" class="carousel-control-prev" role="button" data-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -45,26 +45,45 @@
 
   </div>
 
-  <div class="bodyIndex" style=" padding-left : 25%; padding-right: 25%;">
+  <div class="bodyIndex" style="padding-left : 22%; padding-right: 22%;">
 
-      <p style="font-size: 2em">Les films du moment</p>
+      <p style="font-size: 2em;">Les films du moment</p>
 
       <table>
+        {% for i in range(0, movies.length) %}
+        {% if i%5 == 0 and i != 0 %}
+        </tr>
         <tr>
-        {% for m in movies %}
           <td>
-              <a href="/{{m._id}}"><div style="text-align : center">
-                <img src="{{m.poster}}" alt="" style="height: 30vh">
-                <p style="text-decoration : none">{{m.title}}</p>
+              <a href="/{{movies[i]._id}}"><div style="text-align : center">
+                <img src="{{movies[i].poster}}" alt="" style="height: 30vh">
+                <p style="text-decoration : none">{{movies[i].title}}</p>
             </div></a>
           </td>
+        {%elif i%5 == 0 and i == 0 %}
+        <tr>
+          <td>
+              <a href="/{{movies[i]._id}}"><div style="text-align : center">
+                <img src="{{movies[i].poster}}" alt="" style="height: 30vh">
+                <p style="text-decoration : none">{{movies[i].title}}</p>
+            </div></a>
+          </td>
+        {% else %}
+        <td>
+            <a href="/{{movies[i]._id}}"><div style="text-align : center">
+              <img src="{{movies[i].poster}}" alt="" style="height: 30vh">
+              <p style="text-decoration : none">{{movies[i].title}}</p>
+          </div></a>
+        </td>
+        {% endif %}
 
         {% endfor %}
-        </tr>
       </table>
   </div>
+  <div class="add_div">
+    <a href="/new" class="add_button btn btn-outline-dark " >Ajouter un film</a>
+  </div>
 
-  <a href="/new">Ajouter un film</a>
 
 
 {% endblock %}
